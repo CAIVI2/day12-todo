@@ -136,4 +136,29 @@ public class TodoControllerTests {
                 .andExpect(jsonPath("$.text").value("Buy snacks"))
                 .andExpect(jsonPath("$.done").value(true));
     }
+
+    @Test
+    void should_response_200_and_ignore_surplus_id_when_update_todo() throws Exception {
+        Todo todo = new Todo("123", "Buy milk", false);
+        todo = todoRepository.save(todo);
+
+        String updateTodoJson = """
+                {
+                    "id": "456",
+                    "text": "Buy snacks",
+                    "done": true
+                }
+                """;
+
+        MockHttpServletRequestBuilder request = put("/todos/" + todo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateTodoJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(todo.getId()))
+                .andExpect(jsonPath("$.id").value(not("456")))
+                .andExpect(jsonPath("$.text").value("Buy snacks"))
+                .andExpect(jsonPath("$.done").value(true));
+    }
 }
