@@ -1,7 +1,8 @@
 package org.example.todo.controller;
 
 import org.example.todo.dto.TodoRequest;
-import org.example.todo.entity.Todo;
+import org.example.todo.dto.TodoResponse;
+import org.example.todo.dto.mapper.TodoMapper;
 import org.example.todo.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -20,19 +21,19 @@ public class TodoController {
     }
 
     @GetMapping
-    List<Todo> index() {
-        return todoService.index();
+    List<TodoResponse> index() {
+        return TodoMapper.toResponses(todoService.index());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Todo create(@RequestBody @Validated TodoRequest todoRequest) {
-        return todoService.create(todoRequest);
+    public TodoResponse create(@RequestBody @Validated TodoRequest todoRequest) {
+        return TodoMapper.toResponse(todoService.create(todoRequest));
     }
 
     @PutMapping("/{id}")
-    public Todo update(@PathVariable String id, @RequestBody @Validated TodoRequest todoRequest) {
-        return todoService.update(id, todoRequest);
+    public TodoResponse update(@PathVariable String id, @RequestBody @Validated TodoRequest todoRequest) {
+        return TodoMapper.toResponse(todoService.update(id, todoRequest));
     }
 
     @DeleteMapping("/{id}")
