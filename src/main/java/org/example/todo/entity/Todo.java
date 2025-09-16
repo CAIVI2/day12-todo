@@ -1,4 +1,4 @@
-package org.example.todo;
+package org.example.todo.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
