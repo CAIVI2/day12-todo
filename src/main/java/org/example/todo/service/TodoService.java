@@ -21,4 +21,9 @@ public class TodoService {
     public Todo create(Todo todo) {
         return todoRepository.save(todo);
     }
+
+    public Todo update(String id, Todo todo) {
+        todo.setId(id);
+        return todoRepository.save(todo);
+    }
 }
