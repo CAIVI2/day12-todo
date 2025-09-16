@@ -35,6 +35,7 @@ public class TodoService {
     }
 
     public void delete(String id) {
+        todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo id: " + id + " not found"));
         todoRepository.deleteById(id);
     }
 }

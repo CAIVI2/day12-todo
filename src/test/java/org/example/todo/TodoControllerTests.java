@@ -208,4 +208,13 @@ public class TodoControllerTests {
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    void should_response_204_when_delete_todo_with_not_found_id() throws Exception {
+        MockHttpServletRequestBuilder request = delete("/todos/999")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mockMvc.perform(request)
+                .andExpect(status().isNotFound());
+    }
 }
