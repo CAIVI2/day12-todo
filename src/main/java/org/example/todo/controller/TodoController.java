@@ -1,6 +1,7 @@
 package org.example.todo.controller;
 
 import org.example.todo.entity.Todo;
+import org.example.todo.exception.InvalidTextTodoException;
 import org.example.todo.service.TodoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ public class TodoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Todo create(@RequestBody Todo todo) {
+        if (todo.getText() == null || todo.getText().isEmpty()) {
+            throw new InvalidTextTodoException("Text is required");
+        }
         return todoService.create(todo);
     }
 }

@@ -75,4 +75,20 @@ public class TodoControllerTests {
                 .andExpect(jsonPath("$.text").value("Buy milk"))
                 .andExpect(jsonPath("$.done").value(false));
     }
+
+    @Test
+    void should_response_422_when_create_todo_with_missing_field_text() throws Exception {
+        String newTodoJson = """
+                {
+                    "done": false
+                }
+                """;
+
+        MockHttpServletRequestBuilder request = post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newTodoJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isUnprocessableEntity());
+    }
 }
