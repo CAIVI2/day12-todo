@@ -26,6 +26,7 @@ public class TodoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Todo create(@RequestBody Todo todo) {
+        todo.setId(null);
         if (todo.getText() == null || todo.getText().isEmpty()) {
             throw new InvalidTextTodoException("Text is required");
         }
