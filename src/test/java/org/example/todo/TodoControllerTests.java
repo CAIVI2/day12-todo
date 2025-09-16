@@ -178,4 +178,22 @@ public class TodoControllerTests {
         mockMvc.perform(request)
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void should_response_422_when_update_todo_with_incomplete_payload() throws Exception {
+        Todo todo = new Todo("123", "Buy milk", false);
+        todo = todoRepository.save(todo);
+
+        String updateTodoJson = """
+                {
+                }
+                """;
+
+        MockHttpServletRequestBuilder request = put("/todos/" + todo.getId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateTodoJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isUnprocessableEntity());
+    }
 }
