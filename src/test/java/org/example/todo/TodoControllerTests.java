@@ -94,6 +94,22 @@ public class TodoControllerTests {
     }
 
     @Test
+    void should_response_422_when_create_todo_with_required_field_text() throws Exception {
+        String newTodoJson = """
+              {
+                    "done": false
+                }
+                """;
+
+        MockHttpServletRequestBuilder request = post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(newTodoJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
     void should_response_201_and_ignore_id_when_create_todo_with_id() throws Exception {
         String newTodoJson = """
                 {
