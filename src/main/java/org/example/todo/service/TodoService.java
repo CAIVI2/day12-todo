@@ -2,7 +2,9 @@ package org.example.todo.service;
 
 import org.example.todo.entity.Todo;
 import org.example.todo.repository.TodoRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -23,6 +25,7 @@ public class TodoService {
     }
 
     public Todo update(String id, Todo todo) {
+        todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo id: " + id + " not found"));
         todo.setId(id);
         return todoRepository.save(todo);
     }
