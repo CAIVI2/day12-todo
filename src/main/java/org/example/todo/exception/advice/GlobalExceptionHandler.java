@@ -2,6 +2,7 @@ package org.example.todo.exception.advice;
 
 import org.example.todo.exception.ErrorResponse;
 import org.example.todo.exception.InvalidTextTodoException;
+import org.example.todo.exception.ResponseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
