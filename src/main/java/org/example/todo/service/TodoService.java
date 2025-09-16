@@ -22,6 +22,10 @@ public class TodoService {
     }
 
     public Todo create(Todo todo) {
+        todo.setId(null);
+        if (todo.getText() == null || todo.getText().isEmpty()) {
+            throw new InvalidTextTodoException("Text is required");
+        }
         return todoRepository.save(todo);
     }
 
