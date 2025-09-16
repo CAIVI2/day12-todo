@@ -1,8 +1,10 @@
 package org.example.todo.controller;
 
+import org.example.todo.dto.TodoRequest;
 import org.example.todo.entity.Todo;
 import org.example.todo.service.TodoService;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,13 +26,13 @@ public class TodoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Todo create(@RequestBody Todo todo) {
-        return todoService.create(todo);
+    public Todo create(@RequestBody @Validated TodoRequest todoRequest) {
+        return todoService.create(todoRequest);
     }
 
     @PutMapping("/{id}")
-    public Todo update(@PathVariable String id, @RequestBody Todo todo) {
-        return todoService.update(id, todo);
+    public Todo update(@PathVariable String id, @RequestBody @Validated TodoRequest todoRequest) {
+        return todoService.update(id, todoRequest);
     }
 
     @DeleteMapping("/{id}")

@@ -1,7 +1,8 @@
 package org.example.todo.service;
 
+import org.example.todo.dto.TodoRequest;
+import org.example.todo.dto.mapper.TodoMapper;
 import org.example.todo.entity.Todo;
-import org.example.todo.exception.InvalidTextTodoException;
 import org.example.todo.repository.TodoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,21 +22,15 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public Todo create(Todo todo) {
-        todo.setId(null);
-        if (todo.getText() == null || todo.getText().isEmpty()) {
-            throw new InvalidTextTodoException("Text is required");
-        }
-        return todoRepository.save(todo);
+    public Todo create(TodoRequest todoRequest) {
+        todoRequest.setId(null);
+        return todoRepository.save(TodoMapper.toEntity(todoRequest));
     }
 
-    public Todo update(String id, Todo todo) {
+    public Todo update(String id, TodoRequest todoRequest) {
         todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo id: " + id + " not found"));
-        todo.setId(id);
-        if (todo.getText() == null || todo.getText().isEmpty()) {
-            throw new InvalidTextTodoException("Text is required");
-        }
-        return todoRepository.save(todo);
+        todoRequest.setId(id);
+        return todoRepository.save(TodoMapper.toEntity(todoRequest));
     }
 
     public void delete(String id) {
