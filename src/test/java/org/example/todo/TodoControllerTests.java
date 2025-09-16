@@ -79,7 +79,8 @@ public class TodoControllerTests {
     @Test
     void should_response_422_when_create_todo_with_missing_field_text() throws Exception {
         String newTodoJson = """
-                {
+              {
+                    "text": "",
                     "done": false
                 }
                 """;
@@ -96,7 +97,7 @@ public class TodoControllerTests {
     void should_response_201_and_ignore_id_when_create_todo_with_id() throws Exception {
         String newTodoJson = """
                 {
-                    "id": "123",
+                    "id": "client-sent",
                     "text": "Buy milk",
                     "done": false
                 }
@@ -109,7 +110,7 @@ public class TodoControllerTests {
         mockMvc.perform(request)
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.id").value(not("123")))
+                .andExpect(jsonPath("$.id").value(not("client-sent")))
                 .andExpect(jsonPath("$.text").value("Buy milk"))
                 .andExpect(jsonPath("$.done").value(false));
     }
