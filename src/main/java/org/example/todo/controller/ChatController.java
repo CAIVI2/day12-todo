@@ -30,4 +30,14 @@ public class ChatController {
                 .stream()
                 .content();
     }
+
+    @GetMapping(value = "/chat/system", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    Flux<String> simplePromptExample(@RequestParam String userInput) {
+        return this.chatClient.prompt()
+                .system("You are a Todo tasks manager, you should only answer about Todo manage related questions." +
+                        "If the user ask you about other things, you should answer you don't know. ")
+                .user(userInput)
+                .stream()
+                .content();
+    }
 }
