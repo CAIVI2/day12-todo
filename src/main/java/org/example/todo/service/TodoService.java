@@ -30,12 +30,14 @@ public class TodoService {
         return todoRepository.save(TodoMapper.toEntity(todoRequest));
     }
 
+    @Tool(name = "updateTodo", description = "Update a todo")
     public Todo update(String id, TodoRequest todoRequest) {
         todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo id: " + id + " not found"));
         todoRequest.setId(id);
         return todoRepository.save(TodoMapper.toEntity(todoRequest));
     }
 
+    @Tool(name = "deleteTodo", description = "Delete a todo")
     public void delete(String id) {
         todoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Todo id: " + id + " not found"));
         todoRepository.deleteById(id);
