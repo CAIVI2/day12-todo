@@ -4,6 +4,7 @@ import org.example.todo.dto.TodoRequest;
 import org.example.todo.dto.mapper.TodoMapper;
 import org.example.todo.entity.Todo;
 import org.example.todo.repository.TodoRepository;
+import org.springframework.ai.tool.annotation.Tool;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,10 +19,12 @@ public class TodoService {
         this.todoRepository = todoRepository;
     }
 
+    @Tool(name = "findAllTodo", description = "Find all todo")
     public List<Todo> index() {
         return todoRepository.findAll();
     }
 
+    @Tool(name = "createTodo", description = "Create a new todo")
     public Todo create(TodoRequest todoRequest) {
         todoRequest.setId(null);
         return todoRepository.save(TodoMapper.toEntity(todoRequest));
